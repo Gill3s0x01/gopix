@@ -1,25 +1,22 @@
 package model
 import (
-	"time"
 	uuidn "github.com/satori/go.uuid"
+	Base "gopix/domain/model/base"
 )
 
 
 type Bank struct {
-	ID 				string 		`json:"id"`
-	Code 			string		`json:"code"`
-	Name 			string 		`json:"name"`
-	CreatedAt time.Time	`json:"created_at"`
-	UpdatedAt time.Time	`json:"updated_at"`
+	Base `valid: "required"`
+	Code 			string		`json:"code" valid:"notnull"`
+	Name 			string 		`json:"name" valid:"notnull"`
 }
 
 func (bank *Bank) isValid() error{
-	if bank.Code == "" {
-		return errors.New("code is required")
+	_, err := govalidator.ValidateStruct(bank)
+	if err != nil {
+		return err
 	}
-	if bank.Name == "" {
-		return errors.New("name is required")
-	}
+	
 	return nil
 }
 
